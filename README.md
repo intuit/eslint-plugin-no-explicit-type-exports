@@ -34,9 +34,11 @@ In your `.eslintrc` add  `eslint-plugin-no-explicit-type-exports` to the plugin 
   "plugins": ["eslint-plugin-no-explicit-type-exports"]
 }
 
-Note you will need to use the `@typescript-eslint/parser` and add an import/resolver to your settings.
+```
+
+Note: you will need to use the `@typescript-eslint/parser` and add an import/resolver to your eslint settings.
 More information about import/resolver can be found in the `eslints-plugin-import` documentation.
-Both `@typescript-eslint` and `eslints-plugin-import` can be found at the bottom of this README. 
+Links to both `@typescript-eslint` and `eslints-plugin-import` can be found at the bottom of this README. 
 
 ```json
 {
@@ -71,7 +73,9 @@ given:
         a: string;
         b: number;
     }
+    
     type aType = string;
+    
     const randomNumber = 5;
 
     export {aType, anInterface};
@@ -97,6 +101,12 @@ import {aType, randomNumber, anInterface} from './foo';
 export randomNumber;
 ```
 
+```js
+// exporting * is valid. Since types and interfaces are already stript out
+import {aType, randomNumber, anInterface} from './foo';
+
+export * from './foo'; ;
+```
 Invalid:
 
 
