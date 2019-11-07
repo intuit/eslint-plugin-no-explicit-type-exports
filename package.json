@@ -1,0 +1,52 @@
+{
+  "name": "eslint-plugin-no-explicit-type-exports",
+  "version": "0.10.9",
+  "repository": "https://github.com/intuit/eslint-plugin-no-explicit-type-exports",
+  "author": "Kendall Gassner kendall.gassner@yahoo.com",
+  "contributors": [
+    "Kendall Gassner kendall.gassner@yahoo.com"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf ./dist && tsc -b tsconfig.build.json",
+    "start": "npm run build -- --watch",
+    "clean": "rimraf ./dist && rimraf node_modules",
+    "lint": "eslint ./src --ext .js,.ts",
+    "test": "jest --coverage",
+    "release": "auto shipit -w",
+    "labelCheck": "auto pr-check"
+  },
+  "engines": {
+    "node": "^8.10.0 || ^10.13.0 || >=11.10.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "dependencies": {
+    "@typescript-eslint/experimental-utils": "^2.4.0",
+    "eslint-import-resolver-node": "^0.3.2",
+    "eslint-module-utils": "^2.4.1"
+  },
+  "peerDependencies": {
+    "@typescript-eslint/parser": ">= 2.5.0",
+    "eslint": ">= 6.x"
+  },
+  "devDependencies": {
+    "@types/eslint": "^6.1.2",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.11.5",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "@typescript-eslint/typescript-estree": "^2.4.0",
+    "auto": "^7.12.5",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "prettier": "1.18.2",
+    "rimraf": "3.0.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  }
+}
