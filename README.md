@@ -11,7 +11,7 @@ Imagine a you have a typescript package that includes `foo.ts` and `index.ts`:
     export type barType = string;
     
 // index.ts
-    export {barType} from './foo.ts'
+    export {barType} from './foo.ts' 
 
 ```
 

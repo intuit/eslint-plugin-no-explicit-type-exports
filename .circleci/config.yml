@@ -95,7 +95,7 @@ workflows:
 
       - build:
           requires:
-            - checkLabels
+            - install
 
       - lint:
           requires:
