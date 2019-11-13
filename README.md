@@ -31,7 +31,10 @@ In your `.eslintrc` add  `eslint-plugin-no-explicit-type-exports` to the plugin 
 
 ```json
 {
-  "plugins": ["eslint-plugin-no-explicit-type-exports"]
+  "plugins": ["eslint-plugin-no-explicit-type-exports"],
+   "rules": {
+    "no-explicit-type-exports/no-explicit-type-exports": 2,
+  }
 }
 
 ```
