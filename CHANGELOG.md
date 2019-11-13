@@ -1,3 +1,15 @@
+# v0.10.11 (Wed Nov 13 2019)
+
+#### ⚠️  Pushed to master
+
+- Update README.md  ([@kendallgassner](https://github.com/kendallgassner))
+
+#### Authors: 1
+
+- Kendall Gassner ([@kendallgassner](https://github.com/kendallgassner))
+
+---
+
 # v0.10.10 (Fri Nov 08 2019)
 
 #### 🐛  Bug Fix
