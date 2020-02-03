@@ -7,7 +7,6 @@ const ruleTester = new RuleTester({
   parserOptions: {
     sourceType: 'module',
   },
-
   parser: parser,
   settings: {
     'import/resolver': {
@@ -51,8 +50,27 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when you export an imported interface
       filename: fileName,
-      code: "import baz, {bar, foo} from './bar'; export {bar}",
+      code: "import {bar} from './bar'; export {bar};",
+      output: "import type { bar } from './bar'; export {bar};",
       errors: [
+        {
+          message: "Do not export 'bar' it is an imported type or interface.",
+        },
+        {
+          message: "Do not export 'bar' it is an imported type or interface.",
+        },
+      ],
+    },
+    {
+      // The rule fails when you export an imported interface
+      filename: fileName,
+      code: "import baz, {bar, foo} from './bar'; export {bar};",
+      output:
+        "import type { bar,foo } from './bar';import { baz } from './bar'; export {bar};",
+      errors: [
+        {
+          message: "Do not export 'bar' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'bar' it is an imported type or interface.",
         },
@@ -61,8 +79,13 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when you export an imported type
       filename: fileName,
-      code: "import baz, {bar, foo} from './bar'; export {foo}",
+      code: "import baz, {bar, foo} from './bar'; export {foo};",
+      output:
+        "import type { bar,foo } from './bar';import { baz } from './bar'; export {foo};",
       errors: [
+        {
+          message: "Do not export 'foo' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'foo' it is an imported type or interface.",
         },
@@ -71,8 +94,12 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when you export an imported type (single line type)
       filename: fileName,
-      code: "import {baz} from './foo'; export {baz}",
+      code: "import {baz} from './foo'; export {baz};",
+      output: "import type { baz } from './foo'; export {baz};",
       errors: [
+        {
+          message: "Do not export 'baz' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'baz' it is an imported type or interface.",
         },
@@ -81,8 +108,12 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when you export an imported interface (single line interface)
       filename: fileName,
-      code: "import {foo} from './foo'; export {foo}",
+      code: "import {foo} from './foo'; export {foo};",
+      output: "import type { foo } from './foo'; export {foo};",
       errors: [
+        {
+          message: "Do not export 'foo' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'foo' it is an imported type or interface.",
         },
@@ -91,8 +122,12 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when you export an imported default type
       filename: fileName,
-      code: "import aType from './default'; export {aType}",
+      code: "import aType from './default'; export {aType};",
+      output: "import type { aType } from './default'; export {aType};",
       errors: [
+        {
+          message: "Do not export 'aType' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'aType' it is an imported type or interface.",
         },
@@ -101,7 +136,8 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when you export default a type.
       filename: fileName,
-      code: "import aType from './default'; export default aType",
+      code: "import aType from './default'; export default aType;",
+      output: "import type { aType } from './default'; export default aType;",
       errors: [
         {
           message: "Do not export 'aType' it is an imported type or interface.",
@@ -112,6 +148,7 @@ ruleTester.run('no-explicit-type-exports', rule, {
       // The rule fails when export and import a type or interface on a single line
       filename: fileName,
       code: "export { x } from './oneLine'",
+      output: "export type { x } from './oneLine';",
       errors: [
         {
           message: "Do not export 'x' it is an imported type or interface.",
@@ -121,7 +158,9 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails multiple times.
       filename: fileName,
-      code: "import foo, {bar, foo, baz} from './bar'; export {bar, foo};",
+      code: "import foo, {bar, baz} from './bar'; export {bar, foo};",
+      output:
+        "import type { foo,bar } from './bar';import { baz } from './bar'; export {bar, foo};",
       errors: [
         {
           message: "Do not export 'bar' it is an imported type or interface.",
@@ -129,13 +168,21 @@ ruleTester.run('no-explicit-type-exports', rule, {
         {
           message: "Do not export 'foo' it is an imported type or interface.",
         },
+        {
+          message: "Do not export 'bar' it is an imported type or interface.",
+        },
       ],
     },
     {
       // The rule fails when exporting a type in an export with multiple exports
       filename: fileName,
-      code: "import foo, {bar, foo, baz} from './bar'; export {baz, foo};",
+      code: "import {bar, foo, baz} from './bar'; export {baz, foo};",
+      output:
+        "import type { bar,foo } from './bar';import { baz } from './bar'; export {baz, foo};",
       errors: [
+        {
+          message: "Do not export 'foo' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'foo' it is an imported type or interface.",
         },
@@ -144,8 +191,13 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when exporting a type in an export with multiple export
       filename: fileName,
-      code: "import foo, {bar, foo, baz} from './bar'; export {foo, baz};",
+      code: "import foo, {bar, baz} from './bar'; export {foo, baz};",
+      output:
+        "import type { foo,bar } from './bar';import { baz } from './bar'; export {foo, baz};",
       errors: [
+        {
+          message: "Do not export 'foo' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'foo' it is an imported type or interface.",
         },
@@ -154,12 +206,58 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when there are extra imports in the file.
       filename: fileName,
-      code: "import {aType} from './randomImports'; export {aType}",
+      code: "import {aType} from './randomImports'; export {aType};",
+      output: "import type { aType } from './randomImports'; export {aType};",
       errors: [
+        {
+          message: "Do not export 'aType' it is an imported type or interface.",
+        },
         {
           message: "Do not export 'aType' it is an imported type or interface.",
         },
       ],
     },
+    {
+      // The rule fails when export and import a type or interface on a single line
+      filename: fileName,
+      code: "import { x } from './oneLine'; export { x };",
+      output: "import type { x } from './oneLine'; export type { x };",
+      errors: [
+        {
+          message: "Do not export 'x' it is an imported type or interface.",
+        },
+        {
+          message: "Do not export 'x' it is an imported type or interface.",
+        },
+      ],
+    },
+    {
+      // The rule fails when export and import a type or interface on a single line
+      filename: fileName,
+      code:
+        "import { x } from './oneLine';import {bar} from './bar'; export {bar}; export { x };",
+      output: "import type { x } from './oneLine'; export type { x };",
+      errors: [
+        {
+          message: "Do not export 'x' it is an imported type or interface.",
+        },
+        {
+          message: "Do not export 'bar' it is an imported type or interface.",
+        },
+        {
+          message: "Do not export 'bar' it is an imported type or interface.",
+        },
+        {
+          message: "Do not export 'x' it is an imported type or interface.",
+        },
+      ],
+    },
+    //TODO: NOT AN ERROR https://github.com/eslint/eslint/issues/11187
+    // {
+    //   // The rule fails when export and import a type or interface on a single line
+    //   filename: fileName,
+    //   code: "import type { x } from './oneLine'; export type { x };",
+    //   output: "import type { x } from './oneLine'; export type { x };",
+    // },
   ],
 });
