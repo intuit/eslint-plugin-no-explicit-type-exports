@@ -58,7 +58,12 @@ export = {
                 node,
                 message: errorMessage(exp),
                 fix: (fixer: RuleFixer) =>
-                  exportFix(node, typedImports, regularImports, fixer),
+                  exportFix(
+                    node as TSESTree.ExportNamedDeclaration,
+                    typedImports,
+                    regularImports,
+                    fixer,
+                  ),
               });
             } else if (
               typedImports.includes(exp) &&
@@ -68,7 +73,12 @@ export = {
                 node,
                 message: errorMessage(exp),
                 fix: (fixer: RuleFixer) =>
-                  importFixer(node, typedImports, regularImports, fixer),
+                  importFixer(
+                    node as TSESTree.ImportDeclaration,
+                    typedImports,
+                    regularImports,
+                    fixer,
+                  ),
               });
             }
           });
@@ -95,7 +105,12 @@ export = {
             node,
             message: errorMessage(typedExports[0]),
             fix: (fixer: RuleFixer) => {
-              exportFix(node, typedExports, regularExports, fixer);
+              exportFix(
+                node as TSESTree.ExportNamedDeclaration,
+                typedExports,
+                regularExports,
+                fixer,
+              );
             },
           });
         }

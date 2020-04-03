@@ -1,31 +1,40 @@
 import { RuleFixer } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 import { TSESTree } from '@typescript-eslint/typescript-estree';
 
+const generateTypeFix = (
+  type: 'import' | 'export',
+  variables: string[],
+  source: string,
+) => {
+  return `${type} type { ${variables.join(',')} } ${source};`;
+};
+
+const generateNonTypeFix = (
+  type: 'import' | 'export',
+  variables: string[],
+  source: string,
+) => {
+  return `${type} { ${variables.join(',')} } ${source};`;
+};
+
 export const exportFix = (
-  node: TSESTree.ImportDeclaration | TSESTree.ExportNamedDeclaration,
+  node: TSESTree.ExportNamedDeclaration,
   typedExports: string[],
   regularExports: string[],
   fixer: RuleFixer,
 ) => {
   try {
-    const source = (node as TSESTree.ImportDeclaration).source
-      ? 'from ' + (node as TSESTree.ImportDeclaration).source.raw
-      : '';
+    const source =
+      node.source && (node.source as any).raw
+        ? 'from ' + (node.source as any).raw
+        : '';
 
-    let exportTypes = '';
-    let exportRegulars = '';
-    if (typedExports.length) {
-      exportTypes = 'export type { ';
-      exportTypes += typedExports.join(',');
-      exportTypes += ' } ';
-      exportTypes += source + ';';
-    }
-    if (regularExports.length) {
-      exportRegulars = 'export { ';
-      exportRegulars += regularExports.join(',');
-      exportRegulars += ' } ';
-      exportRegulars += source + ';';
-    }
+    const exportTypes = typedExports.length
+      ? generateTypeFix('export', typedExports, source)
+      : '';
+    const exportRegulars = regularExports.length
+      ? generateNonTypeFix('export', regularExports, source)
+      : '';
 
     return fixer.replaceText(node, exportTypes + exportRegulars);
   } catch {
@@ -34,28 +43,19 @@ export const exportFix = (
 };
 
 export const importFixer = (
-  node: TSESTree.ImportDeclaration | TSESTree.ExportNamedDeclaration,
+  node: TSESTree.ImportDeclaration,
   typedImports: string[],
   regularImports: string[],
   fixer: RuleFixer,
 ) => {
   try {
-    const source = 'from ' + (node as TSESTree.ImportDeclaration).source.raw;
-    let importTypes = '';
-    let importRegulars = '';
-    if (typedImports.length) {
-      importTypes = 'import type { ';
-      importTypes += typedImports.join(',');
-      importTypes += ' } ';
-      importTypes += source + ';';
-    }
-    if (regularImports.length) {
-      importRegulars = 'import { ';
-      importRegulars += regularImports.join(',');
-      importRegulars += ' } ';
-      importRegulars += source + ';';
-    }
-
+    const source = 'from ' + node.source.raw;
+    const importTypes = typedImports.length
+      ? generateTypeFix('import', typedImports, source)
+      : '';
+    let importRegulars = regularImports.length
+      ? generateNonTypeFix('import', regularImports, source)
+      : '';
     return fixer.replaceText(node, importTypes + importRegulars);
   } catch {
     return;
