@@ -45,6 +45,11 @@ ruleTester.run('no-explicit-type-exports', rule, {
       filename: fileName,
       code: "import {bar} from './bar';",
     },
+    {
+      // The rule passes when export and import a type or interface on a single line
+      filename: fileName,
+      code: "import type { x } from './oneLine'; export type { x };",
+    },
   ],
   invalid: [
     {
@@ -220,12 +225,9 @@ ruleTester.run('no-explicit-type-exports', rule, {
     {
       // The rule fails when export and import a type or interface on a single line
       filename: fileName,
-      code: "import { x } from './oneLine'; export { x };",
-      output: "import type { x } from './oneLine'; export type { x };",
+      code: "import type { x } from './oneLine'; export { x };",
+      output: "import type { x } from './oneLine'; export { x };",
       errors: [
-        {
-          message: "Do not export 'x' it is an imported type or interface.",
-        },
         {
           message: "Do not export 'x' it is an imported type or interface.",
         },
@@ -235,12 +237,10 @@ ruleTester.run('no-explicit-type-exports', rule, {
       // The rule fails when export and import a type or interface on a single line
       filename: fileName,
       code:
-        "import { x } from './oneLine';import {bar} from './bar'; export {bar}; export { x };",
-      output: "import type { x } from './oneLine'; export type { x };",
+        "import type { x } from './oneLine';import {bar} from './bar'; export {bar}; export { x };",
+      output:
+        "import type { x } from './oneLine';import type { bar } from './bar'; export {bar}; export { x };",
       errors: [
-        {
-          message: "Do not export 'x' it is an imported type or interface.",
-        },
         {
           message: "Do not export 'bar' it is an imported type or interface.",
         },
@@ -252,12 +252,16 @@ ruleTester.run('no-explicit-type-exports', rule, {
         },
       ],
     },
-    //TODO: NOT AN ERROR https://github.com/eslint/eslint/issues/11187
-    // {
-    //   // The rule fails when export and import a type or interface on a single line
-    //   filename: fileName,
-    //   code: "import type { x } from './oneLine'; export type { x };",
-    //   output: "import type { x } from './oneLine'; export type { x };",
-    // },
+    {
+      // The rule fails when export and import a type or interface on a single line
+      filename: fileName,
+      code: "import { x } from './oneLine'; export type { x };",
+      output: "import type { x } from './oneLine'; export type { x };",
+      errors: [
+        {
+          message: "Do not export 'x' it is an imported type or interface.",
+        },
+      ],
+    },
   ],
 });

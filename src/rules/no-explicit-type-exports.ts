@@ -30,7 +30,9 @@ export = {
       const regularImports: string[] = [];
       const { ast } = context.getSourceCode();
       const { source } = node;
+
       const sourceName = source && 'value' in source ? source.value : undefined;
+
       if (typeof sourceName === 'string') {
         const typedExports = parseFileForExports(sourceName, context);
 
@@ -48,14 +50,20 @@ export = {
           );
 
           getExports(ast).forEach(exp => {
-            if (type === 'ExportNamedDeclaration') {
+            if (
+              type === 'ExportNamedDeclaration' &&
+              (node as TSESTree.ExportNamedDeclaration).exportKind !== 'type'
+            ) {
               context.report({
                 node,
                 message: errorMessage(exp),
                 fix: (fixer: RuleFixer) =>
                   exportFix(node, typedImports, regularImports, fixer),
               });
-            } else if (typedImports.includes(exp)) {
+            } else if (
+              typedImports.includes(exp) &&
+              (node as TSESTree.ImportDeclaration).importKind !== 'type'
+            ) {
               context.report({
                 node,
                 message: errorMessage(exp),
@@ -79,7 +87,10 @@ export = {
           },
         );
 
-        if (typedExports.length) {
+        if (
+          typedExports.length &&
+          (node as TSESTree.ExportNamedDeclaration).exportKind !== 'type'
+        ) {
           context.report({
             node,
             message: errorMessage(typedExports[0]),
