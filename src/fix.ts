@@ -7,7 +7,7 @@ const generateTypeFix = (
   source: string,
 ) => {
   const spacedSource = source ? ` ${source}` : '';
-  return `${type} type { ${variables.join(',')} }${spacedSource};`;
+  return `${type} type { ${variables.join(',')} }${spacedSource};\n`;
 };
 
 const generateNonTypeFix = (
