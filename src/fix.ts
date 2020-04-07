@@ -6,7 +6,8 @@ const generateTypeFix = (
   variables: string[],
   source: string,
 ) => {
-  return `${type} type { ${variables.join(',')} } ${source};`;
+  const spacedSource = source ? ` ${source}` : '';
+  return `${type} type { ${variables.join(',')} }${spacedSource};`;
 };
 
 const generateNonTypeFix = (
@@ -14,7 +15,8 @@ const generateNonTypeFix = (
   variables: string[],
   source: string,
 ) => {
-  return `${type} { ${variables.join(',')} } ${source};`;
+  const spacedSource = source ? ` ${source}` : '';
+  return `${type} { ${variables.join(',')} }${spacedSource};`;
 };
 
 export const exportFix = (

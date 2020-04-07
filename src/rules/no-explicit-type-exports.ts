@@ -104,14 +104,13 @@ export = {
           context.report({
             node,
             message: errorMessage(typedExports[0]),
-            fix: (fixer: RuleFixer) => {
+            fix: (fixer: RuleFixer) =>
               exportFix(
                 node as TSESTree.ExportNamedDeclaration,
                 typedExports,
                 regularExports,
                 fixer,
-              );
-            },
+              ),
           });
         }
       }
