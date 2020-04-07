@@ -19,7 +19,7 @@ const generateNonTypeFix = (
   return `${type} { ${variables.join(',')} }${spacedSource};`;
 };
 
-export const exportFix = (
+export const exportFixer = (
   node: TSESTree.ExportNamedDeclaration,
   typedExports: string[],
   regularExports: string[],

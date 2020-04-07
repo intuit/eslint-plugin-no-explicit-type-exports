@@ -2,11 +2,20 @@ import { TSESTree } from '@typescript-eslint/experimental-utils';
 
 import parseFileForExports from './getTypeExports';
 import getExports from './getExports';
-import { exportFix, importFixer } from '../fix';
+import { exportFixer, importFixer } from '../fix';
 import { RuleFixer } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 
 function errorMessage(name: string): string {
   return `Do not export '${name}' it is an imported type or interface.`;
+}
+
+function isTypeStatement(
+  node: TSESTree.ExportNamedDeclaration | TSESTree.ImportDeclaration,
+): boolean {
+  return (
+    (node as TSESTree.ExportNamedDeclaration).exportKind === 'type' ||
+    (node as TSESTree.ImportDeclaration).importKind === 'type'
+  );
 }
 
 export = {
@@ -50,37 +59,25 @@ export = {
           );
 
           getExports(ast).forEach(exp => {
-            if (
-              type === 'ExportNamedDeclaration' &&
-              typedImports.includes(exp) &&
-              (node as TSESTree.ExportNamedDeclaration).exportKind !== 'type'
-            ) {
+            if (typedImports.includes(exp) && !isTypeStatement(node)) {
+              const isExport = type === 'ExportNamedDeclaration';
               context.report({
                 node,
                 message: errorMessage(exp),
                 fix: (fixer: RuleFixer) =>
-                  exportFix(
-                    node as TSESTree.ExportNamedDeclaration,
-                    typedImports,
-                    regularImports,
-                    fixer,
-                  ),
-              });
-            } else if (
-              type === 'ImportDeclaration' &&
-              typedImports.includes(exp) &&
-              (node as TSESTree.ImportDeclaration).importKind !== 'type'
-            ) {
-              context.report({
-                node,
-                message: errorMessage(exp),
-                fix: (fixer: RuleFixer) =>
-                  importFixer(
-                    node as TSESTree.ImportDeclaration,
-                    typedImports,
-                    regularImports,
-                    fixer,
-                  ),
+                  isExport
+                    ? exportFixer(
+                        node as TSESTree.ExportNamedDeclaration,
+                        typedImports,
+                        regularImports,
+                        fixer,
+                      )
+                    : importFixer(
+                        node as TSESTree.ImportDeclaration,
+                        typedImports,
+                        regularImports,
+                        fixer,
+                      ),
               });
             }
           });
@@ -98,15 +95,12 @@ export = {
             }
           },
         );
-        if (
-          typedExports.length &&
-          (node as TSESTree.ExportNamedDeclaration).exportKind !== 'type'
-        ) {
+        if (typedExports.length && !isTypeStatement(node)) {
           context.report({
             node,
             message: errorMessage(typedExports[0]),
             fix: (fixer: RuleFixer) =>
-              exportFix(
+              exportFixer(
                 node as TSESTree.ExportNamedDeclaration,
                 typedExports,
                 regularExports,
