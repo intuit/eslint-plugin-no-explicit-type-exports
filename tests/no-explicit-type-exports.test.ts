@@ -50,6 +50,16 @@ ruleTester.run('no-explicit-type-exports', rule, {
       filename: fileName,
       code: "import type { x } from './oneLine'; export type { x };",
     },
+    {
+      // The rule passes when export and import a type or interface on a single line
+      filename: fileName,
+      code: "export type { foo } from './bar';",
+    },
+    {
+      // The rule passes when export and import a type or interface on a single line
+      filename: fileName,
+      code: "export type { foo } from './bar'; export  { baz } from './bar';",
+    },
   ],
   invalid: [
     {
@@ -261,6 +271,17 @@ ruleTester.run('no-explicit-type-exports', rule, {
       errors: [
         {
           message: "Do not export 'x' it is an imported type or interface.",
+        },
+      ],
+    },
+    {
+      // The rule fails single line imported/exported  types
+      filename: fileName,
+      code: "export { foo, baz } from './bar';",
+      output: "export type { foo } from './bar';export { baz } from './bar';",
+      errors: [
+        {
+          message: "Do not export 'foo' it is an imported type or interface.",
         },
       ],
     },

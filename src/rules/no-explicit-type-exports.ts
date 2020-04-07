@@ -26,8 +26,6 @@ export = {
     const getTypeImports = (type: string) => (
       node: TSESTree.ImportDeclaration | TSESTree.ExportNamedDeclaration,
     ): void => {
-      const typedImports: string[] = [];
-      const regularImports: string[] = [];
       const { ast } = context.getSourceCode();
       const { source } = node;
 
@@ -35,6 +33,8 @@ export = {
 
       if (typeof sourceName === 'string') {
         const typedExports = parseFileForExports(sourceName, context);
+        const typedImports: string[] = [];
+        const regularImports: string[] = [];
 
         if (typedExports) {
           node.specifiers.forEach(
@@ -52,6 +52,7 @@ export = {
           getExports(ast).forEach(exp => {
             if (
               type === 'ExportNamedDeclaration' &&
+              typedImports.includes(exp) &&
               (node as TSESTree.ExportNamedDeclaration).exportKind !== 'type'
             ) {
               context.report({
@@ -66,6 +67,7 @@ export = {
                   ),
               });
             } else if (
+              type === 'ImportDeclaration' &&
               typedImports.includes(exp) &&
               (node as TSESTree.ImportDeclaration).importKind !== 'type'
             ) {
@@ -96,7 +98,6 @@ export = {
             }
           },
         );
-
         if (
           typedExports.length &&
           (node as TSESTree.ExportNamedDeclaration).exportKind !== 'type'
