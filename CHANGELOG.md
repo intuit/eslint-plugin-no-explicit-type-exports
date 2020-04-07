@@ -1,3 +1,16 @@
+# v0.11.0 (Tue Apr 07 2020)
+
+#### 🚀  Enhancement
+
+- Adding the ability to use --fix [#6](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/6) (Kendall_Gassner@intuit.com [@kendallgassner](https://github.com/kendallgassner))
+
+#### Authors: 2
+
+- Kendall_Gassner@intuit.com (Kendall_Gassner@intuit.com)
+- Kendall Gassner ([@kendallgassner](https://github.com/kendallgassner))
+
+---
+
 # v0.10.11 (Wed Nov 13 2019)
 
 #### ⚠️  Pushed to master
