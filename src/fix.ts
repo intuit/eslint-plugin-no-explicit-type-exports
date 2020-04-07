@@ -53,7 +53,7 @@ export const importFixer = (
     const importTypes = typedImports.length
       ? generateTypeFix('import', typedImports, source)
       : '';
-    let importRegulars = regularImports.length
+    const importRegulars = regularImports.length
       ? generateNonTypeFix('import', regularImports, source)
       : '';
     return fixer.replaceText(node, importTypes + importRegulars);
