@@ -70,34 +70,34 @@ given:
 
 ```js
 // foo.ts
-    export type aType = string;
+export type aType = string;
 
-    export randomNumber = 5;
+export randomNumber = 5;
 
-    export interface anInterface {
-        bar: string;
-    }
+export interface anInterface {
+    bar: string;
+}
 
 // bar.ts
-    interface anInterface {
-        a: string;
-        b: number;
-    }
+interface anInterface {
+    a: string;
+    b: number;
+}
 
-    type aType = string;
+type aType = string;
 
-    const randomNumber = 5;
+const randomNumber = 5;
 
-    export {aType, anInterface};
-    export default randomNumber;
+export {aType, anInterface};
+export default randomNumber;
 
 // baz.ts
-    type aType = string;
+type aType = string;
 
-    export default aType;
+export default aType;
 
 // oneLine.ts
-    export type x = keyof typeof String;
+export type x = keyof typeof String;
 ```
 
 Valid:
