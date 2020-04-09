@@ -1,3 +1,16 @@
+# v0.11.1 (Thu Apr 09 2020)
+
+#### 🐛  Bug Fix
+
+- Added a test case and Updated the readme [#7](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/7) (Kendall_Gassner@intuit.com [@kendallgassner](https://github.com/kendallgassner))
+
+#### Authors: 2
+
+- Kendall_Gassner@intuit.com (Kendall_Gassner@intuit.com)
+- Kendall Gassner ([@kendallgassner](https://github.com/kendallgassner))
+
+---
+
 # v0.11.0 (Tue Apr 07 2020)
 
 #### 🚀  Enhancement
