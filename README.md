@@ -1,6 +1,12 @@
-# eslint-plugin-no-explicit-type-exports 
+<div align="center">
+  <img width="200" height="200"
+    src="./Esl.svg">
+  <h1>eslint-plugin-no-explicit-type-exports</h1>
+  <p>
+This plugin guards against attempting to export types that may not exist after type extraction. This usually occurs when you have a file that exports an imported type.</p>
+</div>
 
-This plugin guards against attempting to export types that may not exist after type extraction. This usually occurs when you have a file that exports an imported type.
+<br />
 
 ## Example Usage
 
@@ -8,40 +14,39 @@ Imagine a you have a typescript package that includes `foo.ts` and `index.ts`:
 
 ```js
 // foo.ts
-    export type barType = string;
-    
-// index.ts
-    export {barType} from './foo.ts' 
+export type barType = string;
 
+// index.ts
+export { barType } from './foo.ts';
 ```
 
 When `foo.ts` is built into JavaScript, the types are removed and added to a type declaration file. However, the export statement in `index.ts` will not be removed. When another developer tries to use this package in a JavaScript project they can encounter errors that the export doesn't actually exist.
 
-```bash    
+```bash
  ./node_modules/some_repo/index.js
  attempted import error: 'barType' is not exported from './foo'.
 ```
 
 ## Installation
 
-```yarn add --dev eslint-plugin-no-explicit-type-exports ```
+`yarn add --dev eslint-plugin-no-explicit-type-exports`
 
 ## Usage
-In your `.eslintrc` add  `eslint-plugin-no-explicit-type-exports` to the plugin section.
+
+In your `.eslintrc` add `eslint-plugin-no-explicit-type-exports` to the plugin section.
 
 ```json
 {
   "plugins": ["eslint-plugin-no-explicit-type-exports"],
-   "rules": {
-    "no-explicit-type-exports/no-explicit-type-exports": 2,
+  "rules": {
+    "no-explicit-type-exports/no-explicit-type-exports": 2
   }
 }
-
 ```
 
 Note: you will need to use the `@typescript-eslint/parser` and add an import/resolver to your eslint settings.
 More information about import/resolver can be found in the `eslints-plugin-import` documentation.
-Links to both `@typescript-eslint` and `eslints-plugin-import` can be found at the bottom of this README. 
+Links to both `@typescript-eslint` and `eslints-plugin-import` can be found at the bottom of this README.
 
 ```json
 {
@@ -60,7 +65,9 @@ Links to both `@typescript-eslint` and `eslints-plugin-import` can be found at t
 ```
 
 ## Rule Details
+
 given:
+
 ```js
 // foo.ts
     export type aType = string;
@@ -70,20 +77,20 @@ given:
     export interface anInterface {
         bar: string;
     }
-    
+
 // bar.ts
     interface anInterface {
         a: string;
         b: number;
     }
-    
+
     type aType = string;
-    
+
     const randomNumber = 5;
 
     export {aType, anInterface};
     export default randomNumber;
-    
+
 // baz.ts
     type aType = string;
 
@@ -92,10 +99,11 @@ given:
 // oneLine.ts
     export type x = keyof typeof String;
 ```
+
 Valid:
 
 ```js
-import {aType, randomNumber, anInterface} from './foo';
+import { aType, randomNumber, anInterface } from './foo';
 ```
 
 ```js
@@ -106,12 +114,12 @@ export randomNumber;
 
 ```js
 // exporting * is valid. Since types and interfaces are already stript out
-import {aType, randomNumber, anInterface} from './foo';
+import { aType, randomNumber, anInterface } from './foo';
 
-export * from './foo'; ;
+export * from './foo';
 ```
-Invalid:
 
+Invalid:
 
 ```js
 import {aType, randomNumber, anInterface} from './foo';
@@ -124,22 +132,39 @@ import {aType, randomNumber, anInterface} from './foo';
 
 export aType;
 ```
- 
 
 ```js
-export {aType} from './baz';
+export { aType } from './baz';
 ```
 
 ```js
-export { x } from './oneLine'
+export { x } from './oneLine';
 ```
 
+### Fixable
+
+The `--fix` option will add the 'type' operator to all types and interfaces that are imported then exported from a file.
+
+This:
+
+```js
+import { SomeThing } from './some-module.js';
+export { SomeThing };
+```
+
+Will be fixed to:
+
+```js
+import type { SomeThing } from './some-module.js';
+export type { SomeThing };
+```
 
 ## Further Reading
-This plugin uses the `eslints-plugin-import` resolver to resolve the files that I would be accessing to check if the specifier was a type or an interface. 
+
+This plugin uses the `eslints-plugin-import` resolver to resolve the files that I would be accessing to check if the specifier was a type or an interface.
 https://github.com/benmosher/eslint-plugin-import
 
-It also uses the @typescript-eslint/parse to parse files to check for types. 
+It also uses the @typescript-eslint/parse to parse files to check for types.
 
 https://github.com/typescript-eslint/typescript-eslint
 

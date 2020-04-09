@@ -60,6 +60,11 @@ ruleTester.run('no-explicit-type-exports', rule, {
       filename: fileName,
       code: "export type { foo } from './bar'; export  { baz } from './bar';",
     },
+    {
+      // The rule passes when export * from a file with exported types/interfaces
+      filename: fileName,
+      code: " export * from './bar';",
+    },
   ],
   invalid: [
     {
