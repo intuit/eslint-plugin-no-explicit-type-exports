@@ -1,3 +1,15 @@
+# v0.11.2 (Thu Apr 09 2020)
+
+#### 🐛  Bug Fix
+
+- Update README.md [#8](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/8) ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+#### Authors: 1
+
+- Andrew Lisowski ([@hipstersmoothie](https://github.com/hipstersmoothie))
+
+---
+
 # v0.11.1 (Thu Apr 09 2020)
 
 #### 🐛  Bug Fix
