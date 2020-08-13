@@ -1,3 +1,16 @@
+# v0.11.3 (Thu Aug 13 2020)
+
+#### 🐛  Bug Fix
+
+- Bump lodash from 4.17.15 to 4.17.19 [#9](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/9) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump acorn from 5.7.3 to 5.7.4 [#5](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/5) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 1
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+
+---
+
 # v0.11.2 (Thu Apr 09 2020)
 
 #### 🐛  Bug Fix
