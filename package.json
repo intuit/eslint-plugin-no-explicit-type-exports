@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-no-explicit-type-exports",
-  "version": "0.11.2",
+  "version": "0.11.4",
   "repository": "https://github.com/intuit/eslint-plugin-no-explicit-type-exports",
   "author": "Kendall Gassner kendall.gassner@yahoo.com",
   "contributors": [
