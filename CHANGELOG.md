@@ -1,3 +1,15 @@
+# v0.11.5 (Tue Sep 15 2020)
+
+#### 🐛  Bug Fix
+
+- Bump handlebars from 4.5.1 to 4.7.6 [#14](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/14) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 1
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+
+---
+
 # v0.11.3 (Thu Aug 13 2020)
 
 #### 🐛  Bug Fix
