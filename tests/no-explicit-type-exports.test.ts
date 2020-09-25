@@ -65,6 +65,11 @@ ruleTester.run('no-explicit-type-exports', rule, {
       filename: fileName,
       code: " export * from './bar';",
     },
+    {
+      // The rule passes when a file imports * from a file and exports as a single variable
+      filename: fileName,
+      code: "import type * as types from './bar'; export type {types};",
+    },
   ],
   invalid: [
     {
