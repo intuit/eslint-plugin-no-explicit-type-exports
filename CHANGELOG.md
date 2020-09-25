@@ -1,3 +1,16 @@
+# v0.11.6 (Fri Sep 25 2020)
+
+#### 🐛  Bug Fix
+
+- Adding passing test case: import type * as types from './bar'; export type {types}; [#15](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/15) (rashmi_ka@intuit.com [@Rashmi-K-A](https://github.com/Rashmi-K-A))
+
+#### Authors: 2
+
+- rashmi_ka (rashmi_ka@intuit.com)
+- Rashmi K A ([@Rashmi-K-A](https://github.com/Rashmi-K-A))
+
+---
+
 # v0.11.5 (Tue Sep 15 2020)
 
 #### 🐛  Bug Fix
