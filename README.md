@@ -181,8 +181,18 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/kendallgassner"><img src="https://avatars3.githubusercontent.com/u/15275462?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kendall Gassner</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=kendallgassner" title="Code">💻</a> <a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=kendallgassner" title="Documentation">📖</a> <a href="#ideas-kendallgassner" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/hipstersmoothie"><img src="https://avatars3.githubusercontent.com/u/1192452?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Andrew Lisowski</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=hipstersmoothie" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Rashmi-K-A"><img src="https://avatars2.githubusercontent.com/u/39820442?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rashmi K A</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=Rashmi-K-A" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/rajatdiptabiswas"><img src="https://avatars.githubusercontent.com/rajatdiptabiswas?s=100" width="100px;" alt=""/><br /><sub><b>Rajat Biswas</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=rajatdiptabiswas" title="Code">💻</a></td>
+  </tr>
+</table>
+
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
