@@ -34,6 +34,18 @@
 
 ---
 
+# v0.11.8 (Wed Oct 07 2020)
+
+#### 🐛 Bug Fix
+
+- Add auto's all-contributors plugin [#18](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/18) ([@rajatdiptabiswas](https://github.com/rajatdiptabiswas))
+
+#### Authors: 1
+
+- Rajat Biswas ([@rajatdiptabiswas](https://github.com/rajatdiptabiswas))
+
+---
+
 # v0.11.9 (Wed Oct 07 2020)
 
 
