@@ -39,7 +39,7 @@
         "code"
       ]
     },
-        {
+    {
       "login": "rajatdiptabiswas",
       "name": "Rajat Biswas",
       "avatar_url": "https://avatars.githubusercontent.com/rajatdiptabiswas",
@@ -47,8 +47,7 @@
       "contributions": [
         "code"
       ]
-    },
-
+    }
   ],
   "contributorsPerLine": 7
 }
