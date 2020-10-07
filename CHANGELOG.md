@@ -1,3 +1,16 @@
+# v0.11.9 (Wed Oct 07 2020)
+
+#### 🐛 Bug Fix
+
+- Fix auto to update all contributors on release [#19](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/19) (Kendall_Gassner@intuit.com [@kendallgassner](https://github.com/kendallgassner))
+
+#### Authors: 2
+
+- Kendall Gassner ([@kendallgassner](https://github.com/kendallgassner))
+- Kendall_Gassner@intuit.com (Kendall_Gassner@intuit.com)
+
+---
+
 # v0.11.8 (Wed Oct 07 2020)
 
 #### 🐛 Bug Fix
