@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@auto-it/all-contributors": "^9.54.6",
+    "all-contributors-cli": "^6.16.1",
     "@types/eslint": "^6.1.2",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.11.5",
