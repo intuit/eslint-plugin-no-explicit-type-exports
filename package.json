@@ -13,7 +13,7 @@
     "clean": "rimraf ./dist && rimraf node_modules",
     "lint": "eslint ./src --ext .js,.ts",
     "test": "jest --coverage",
-    "release": "auto shipit",
+    "release": "auto shipit -vv",
     "labelCheck": "auto pr-check"
   },
   "engines": {
