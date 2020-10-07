@@ -6,6 +6,8 @@
 This plugin guards against attempting to export types that may not exist after type extraction. This usually occurs when you have a file that exports an imported type.</p>
 </div>
 
+<div align="center"><a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square" alt="All Contributors" /></a></div>
+
 <br />
 
 ## Example Usage
@@ -171,3 +173,16 @@ https://github.com/typescript-eslint/typescript-eslint
 ## Contributing
 
 Contributions are welcome! If you encounter problems or have a feature suggestion we'd love to hear about it. Open an issue in the GitHub issue tracker and we will do our best to provide support. Thank you!
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

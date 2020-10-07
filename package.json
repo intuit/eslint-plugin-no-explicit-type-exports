@@ -13,7 +13,7 @@
     "clean": "rimraf ./dist && rimraf node_modules",
     "lint": "eslint ./src --ext .js,.ts",
     "test": "jest --coverage",
-    "release": "auto shipit -w",
+    "release": "auto shipit -vv",
     "labelCheck": "auto pr-check"
   },
   "engines": {
@@ -33,13 +33,14 @@
     "eslint": ">= 6.x"
   },
   "devDependencies": {
+    "@auto-it/all-contributors": "^9.53.1",
     "@types/eslint": "^6.1.2",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.11.5",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "@typescript-eslint/typescript-estree": "^2.27.0",
-    "auto": "^7.12.5",
+    "auto": "^9.53.1",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",

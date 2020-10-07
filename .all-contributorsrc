@@ -1,0 +1,44 @@
+{
+  "projectName": "eslint-plugin-no-explicit-type-exports",
+  "projectOwner": "intuit",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "kendallgassner",
+      "name": "Kendall Gassner",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/15275462?v=4",
+      "profile": "https://github.com/kendallgassner",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas"
+      ]
+    },
+    {
+      "login": "hipstersmoothie",
+      "name": "Andrew Lisowski",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1192452?v=4",
+      "profile": "https://github.intuit.com/hipstersmoothie",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "Rashmi-K-A",
+      "name": "Rashmi K A",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/39820442?v=4",
+      "profile": "https://github.intuit.com/Rashmi-K-A",
+      "contributions": [
+        "code"
+      ]
+    },
+  ],
+  "contributorsPerLine": 7
+}
