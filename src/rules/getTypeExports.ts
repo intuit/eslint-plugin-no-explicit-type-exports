@@ -42,7 +42,11 @@ function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
           const { declaration, specifiers } = node;
 
           specifiers.forEach(specifier => {
-            cache.add(specifier.local.name);
+            if (specifier.local.name === specifier.exported.name) {
+              cache.add(specifier.local.name);
+            } else {
+              cache.add(`${specifier.local.name} as ${specifier.exported.name}`)
+            }
           });
 
           if (declaration && isType(declaration)) {
@@ -62,7 +66,7 @@ function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
       });
 
       cache.forEach(exp => {
-        if (!typeList.includes(exp)) {
+        if (!typeList.includes(exp.split(' as ')[0])) {
           cache.delete(exp);
         }
       });
