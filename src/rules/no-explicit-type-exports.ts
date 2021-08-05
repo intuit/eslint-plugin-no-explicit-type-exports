@@ -18,6 +18,10 @@ function isTypeStatement(
   );
 }
 
+function isExport(exported: TSESTree.ExportSpecifier | TSESTree.ImportClause): exported is TSESTree.ExportSpecifier {
+  return (<TSESTree.ExportSpecifier>exported).exported !== undefined;
+}
+
 export = {
   name: 'no-explicit-type-exports',
   meta: {
@@ -88,8 +92,16 @@ export = {
         node.specifiers.forEach(
           (specifier: TSESTree.ExportSpecifier | TSESTree.ImportClause) => {
             const { name } = specifier.local;
-            if (AllTypedImports.includes(name)) {
-              typedExports.push(name);
+            let exportedName = name;
+            if (isExport(specifier)) {
+              exportedName = specifier.exported.name;
+            }
+            if (AllTypedImports.includes(name) || AllTypedImports.includes(`${name} as ${exportedName}`)) {
+              if (name === exportedName) {
+                typedExports.push(name);
+              } else {
+                typedExports.push(`${name} as ${exportedName}`);
+              }
             } else {
               regularExports.push(name);
             }

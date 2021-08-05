@@ -1,5 +1,6 @@
 import { RuleTester } from 'eslint';
-var path = require('path');
+import path from 'path';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const rule = require('../src/rules/no-explicit-type-exports');
 const parser = require.resolve('@typescript-eslint/parser');
 
@@ -24,6 +25,12 @@ ruleTester.run('no-explicit-type-exports', rule, {
       // The rule passes when a file imports and exports 'normal' variable
       filename: fileName,
       code: "import baz, {bar, foo} from './bar'; export {baz}",
+    },
+    {
+      // The rule passes when a file imports and exports a 'normal' variable
+      // And the variable is renamed using `asType` syntax
+      filename: fileName,
+      code: "import baz from './bar'; export { baz as IBaz }",
     },
     {
       // The rule passes when the file does not exist and the specifier is exported
@@ -54,6 +61,12 @@ ruleTester.run('no-explicit-type-exports', rule, {
       // The rule passes when export and import a type or interface on a single line
       filename: fileName,
       code: "export type { foo } from './bar';",
+    },
+    {
+      // The rule passes when export and import a type or interface on a single line
+      // And rename the export using `asType` syntax
+      filename: fileName,
+      code: "export type { foo as IFoo } from './bar';",
     },
     {
       // The rule passes when export and import a type or interface on a single line
@@ -132,6 +145,19 @@ ruleTester.run('no-explicit-type-exports', rule, {
         },
         {
           message: "Do not export 'baz' it is an imported type or interface.",
+        },
+      ],
+    },
+    {
+      // The rule fails when you export an imported type (single line type)
+      // And rename the type using `asType` syntax
+      filename: fileName,
+      code: "import type {baz} from './foo'; export {baz as IBaz};",
+      output: "import type {baz} from './foo'; export type { baz as IBaz };\n",
+      errors: [
+        {
+          message:
+            "Do not export 'baz as IBaz' it is an imported type or interface.",
         },
       ],
     },
