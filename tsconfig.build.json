@@ -13,12 +13,17 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
-    "lib": ["es2017"],
+    "lib": [
+      "es2017"
+    ],
     "declaration": false,
     "declarationMap": false,
     "outDir": "./dist",
     "rootDir": "./src",
     "resolveJsonModule": true
   },
-  "include": ["src", "typings"]
+  "include": [
+    "src",
+    "typings"
+  ]
 }

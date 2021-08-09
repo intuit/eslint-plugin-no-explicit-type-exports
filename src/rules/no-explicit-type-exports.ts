@@ -2,8 +2,11 @@ import { TSESTree } from '@typescript-eslint/experimental-utils';
 
 import parseFileForExports from './getTypeExports';
 import getExports from './getExports';
+import getTypeDeclarations from './getTypeDeclarations';
 import { exportFixer, importFixer } from '../fix';
 import { RuleFixer } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
+import LintContext from './types';
+import getLocalNonTypes from './getLocalNonTypes';
 
 function errorMessage(name: string): string {
   return `Do not export '${name}' it is an imported type or interface.`;
@@ -18,8 +21,10 @@ function isTypeStatement(
   );
 }
 
-function isExport(exported: TSESTree.ExportSpecifier | TSESTree.ImportClause): exported is TSESTree.ExportSpecifier {
-  return (<TSESTree.ExportSpecifier>exported).exported !== undefined;
+function findIn(needle: string, haystack: string[] | Set<string>): boolean {
+  return [...haystack]
+    .map(h => h.indexOf(needle) !== -1 || needle.indexOf(h) !== -1)
+    .includes(true);
 }
 
 export = {
@@ -28,8 +33,8 @@ export = {
     type: 'problem',
     fixable: 'code',
   },
-  create: function(
-    context: any,
+  create: function (
+    context: LintContext,
   ): {
     ImportDeclaration: (node: TSESTree.ImportDeclaration) => void;
     ExportNamedDeclaration: (node: TSESTree.ExportNamedDeclaration) => void;
@@ -43,6 +48,8 @@ export = {
       const { source } = node;
 
       const sourceName = source && 'value' in source ? source.value : undefined;
+      const AllTypes = getTypeDeclarations(ast);
+      const localNonTypes = getLocalNonTypes(ast);
 
       if (typeof sourceName === 'string') {
         const typedExports = parseFileForExports(sourceName, context);
@@ -53,35 +60,51 @@ export = {
           node.specifiers.forEach(
             (specifier: TSESTree.ExportSpecifier | TSESTree.ImportClause) => {
               const { name } = specifier.local;
-              if (!typedExports.has(name)) {
-                regularImports.push(name);
-              } else {
-                typedImports.push(name);
-                AllTypedImports.push(name);
+              let aliasName = name;
+              if (specifier.type === 'ImportSpecifier') {
+                if (specifier.imported.name !== name) {
+                  aliasName = `${specifier.imported.name} as ${name}`;
+                }
+              } else if (specifier.type === 'ExportSpecifier') {
+                if (specifier.exported.name !== name) {
+                  aliasName = `${name} as ${specifier.exported.name}`;
+                }
+              }
+              if (!localNonTypes.includes(name)) {
+                if (!findIn(aliasName, typedExports)) {
+                  regularImports.push(aliasName);
+                } else {
+                  typedImports.push(aliasName);
+                  AllTypedImports.push(name);
+                }
               }
             },
           );
 
           getExports(ast).forEach(exp => {
-            if (typedImports.includes(exp) && !isTypeStatement(node)) {
-              const isExport = type === 'ExportNamedDeclaration';
+            const name = exp.split(' as ')[0];
+            const isExport = type === 'ExportNamedDeclaration';
+            const typedImport =
+              findIn(name, typedImports) && !isTypeStatement(node);
+
+            if (typedImport && !localNonTypes.includes(name)) {
               context.report({
                 node,
                 message: errorMessage(exp),
                 fix: (fixer: RuleFixer) =>
                   isExport
                     ? exportFixer(
-                        node as TSESTree.ExportNamedDeclaration,
-                        typedImports,
-                        regularImports,
-                        fixer,
-                      )
+                      node as TSESTree.ExportNamedDeclaration,
+                      typedImports,
+                      regularImports,
+                      fixer,
+                    )
                     : importFixer(
-                        node as TSESTree.ImportDeclaration,
-                        typedImports,
-                        regularImports,
-                        fixer,
-                      ),
+                      node as TSESTree.ImportDeclaration,
+                      typedImports,
+                      regularImports,
+                      fixer,
+                    ),
               });
             }
           });
@@ -92,18 +115,18 @@ export = {
         node.specifiers.forEach(
           (specifier: TSESTree.ExportSpecifier | TSESTree.ImportClause) => {
             const { name } = specifier.local;
-            let exportedName = name;
-            if (isExport(specifier)) {
-              exportedName = specifier.exported.name;
-            }
-            if (AllTypedImports.includes(name) || AllTypedImports.includes(`${name} as ${exportedName}`)) {
-              if (name === exportedName) {
-                typedExports.push(name);
-              } else {
-                typedExports.push(`${name} as ${exportedName}`);
+            let aliasName = name;
+            if (specifier.type === 'ExportSpecifier') {
+              if (specifier.exported.name !== name) {
+                aliasName = `${name} as ${specifier.exported.name}`;
               }
+            }
+            const isTyped =
+              AllTypedImports.includes(name) || AllTypes.has(name);
+            if (!localNonTypes.includes(name) && isTyped) {
+              typedExports.push(aliasName);
             } else {
-              regularExports.push(name);
+              regularExports.push(aliasName);
             }
           },
         );

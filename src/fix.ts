@@ -1,11 +1,14 @@
-import { RuleFixer } from '@typescript-eslint/experimental-utils/dist/ts-eslint';
+import {
+  RuleFixer,
+  RuleFix,
+} from '@typescript-eslint/experimental-utils/dist/ts-eslint';
 import { TSESTree } from '@typescript-eslint/typescript-estree';
 
 const generateTypeFix = (
   type: 'import' | 'export',
   variables: string[],
   source: string,
-) => {
+): string => {
   const spacedSource = source ? ` ${source}` : '';
   return `${type} type { ${variables.join(',')} }${spacedSource};\n`;
 };
@@ -14,7 +17,7 @@ const generateNonTypeFix = (
   type: 'import' | 'export',
   variables: string[],
   source: string,
-) => {
+): string => {
   const spacedSource = source ? ` ${source}` : '';
   return `${type} { ${variables.join(',')} }${spacedSource};`;
 };
@@ -24,12 +27,12 @@ export const exportFixer = (
   typedExports: string[],
   regularExports: string[],
   fixer: RuleFixer,
-) => {
+): RuleFix | undefined => {
   try {
-    const source =
-      node.source && (node.source as any).raw
-        ? 'from ' + (node.source as any).raw
-        : '';
+    let source = '';
+    if (node.source !== null && 'raw' in node.source) {
+      source = `from ${node.source.raw}`;
+    }
 
     const exportTypes = typedExports.length
       ? generateTypeFix('export', typedExports, source)
@@ -49,7 +52,7 @@ export const importFixer = (
   typedImports: string[],
   regularImports: string[],
   fixer: RuleFixer,
-) => {
+): RuleFix | undefined => {
   try {
     const source = 'from ' + node.source.raw;
     const importTypes = typedImports.length

@@ -48,6 +48,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "alexogeny",
+      "name": "alexogeny",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6896115?v=4",
+      "profile": "https://github.com/alexogeny",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7

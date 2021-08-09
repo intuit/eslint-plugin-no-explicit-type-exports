@@ -3,6 +3,8 @@ import resolve from 'eslint-module-utils/resolve';
 import { hashObject } from 'eslint-module-utils/hash';
 import { parse } from '@typescript-eslint/parser';
 import { TSESTree } from '@typescript-eslint/typescript-estree';
+import LintContext from './types';
+import parseFileForNonTypes from './getNonTypes';
 
 const fileCache = new Map<string, Set<string>>();
 
@@ -25,30 +27,45 @@ function isType(
  * all of the exported Types/Interfaces. The exported interfaces and types will
  * be stored in a cache.
  */
-function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
+function parseTSTreeForExportedTypes(
+  cacheKey: string,
+  content: string,
+  context: LintContext,
+): void {
   const typeList: string[] = [];
-
   try {
     if (fileCache && fileCache.get(cacheKey)) {
       const ast = parse(content, { sourceType: 'module' });
       const cache = fileCache.get(cacheKey);
-
       if (!cache) {
         return;
       }
-
       ast.body.forEach((node: TSESTree.Statement) => {
         if (node.type === 'ExportNamedDeclaration') {
+          let typeExports: Set<string> | undefined = new Set();
+          let nonTypes: Set<string> | undefined = new Set();
+          const { source } = node;
+          const sourceName =
+            source && 'value' in source ? source.value : undefined;
+          if (typeof sourceName === 'string') {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            typeExports = parseFileForTypedExports(sourceName, context);
+            nonTypes = parseFileForNonTypes(sourceName, context);
+          }
           const { declaration, specifiers } = node;
 
           specifiers.forEach(specifier => {
-            if (specifier.local.name === specifier.exported.name) {
-              cache.add(specifier.local.name);
-            } else {
-              cache.add(`${specifier.local.name} as ${specifier.exported.name}`)
+            let aliasName = specifier.local.name;
+            if (specifier.local.name !== specifier.exported.name) {
+              aliasName = `${aliasName} as ${specifier.exported.name}`;
+            }
+            cache.add(aliasName);
+            const typed = typeExports && typeExports.has(specifier.local.name);
+            const notTyped = nonTypes && nonTypes.has(specifier.local.name);
+            if (typed && !notTyped) {
+              typeList.push(aliasName);
             }
           });
-
           if (declaration && isType(declaration)) {
             cache.add(declaration.id.name);
             typeList.push(declaration.id.name);
@@ -59,12 +76,10 @@ function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
         ) {
           cache.add((node.declaration as TSESTree.Identifier).name);
         }
-
         if (isType(node)) {
           typeList.push(node.id.name);
         }
       });
-
       cache.forEach(exp => {
         if (!typeList.includes(exp.split(' as ')[0])) {
           cache.delete(exp);
@@ -83,7 +98,7 @@ function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
  */
 function parseFileForTypedExports(
   source: string,
-  context: any,
+  context: LintContext,
 ): Set<string> | undefined {
   const path = resolve(source, context);
 
@@ -105,7 +120,7 @@ function parseFileForTypedExports(
     }
 
     fileCache.set(cacheKey, new Set());
-    parseTSTreeForExportedTypes(cacheKey, content);
+    parseTSTreeForExportedTypes(cacheKey, content, context);
 
     return fileCache.get(cacheKey);
   } catch (error) {
