@@ -164,11 +164,11 @@ export type { SomeThing };
 ## Further Reading
 
 This plugin uses the `eslints-plugin-import` resolver to resolve the files that I would be accessing to check if the specifier was a type or an interface.
-https://github.com/benmosher/eslint-plugin-import
+<https://github.com/benmosher/eslint-plugin-import>
 
 It also uses the @typescript-eslint/parse to parse files to check for types.
 
-https://github.com/typescript-eslint/typescript-eslint
+<https://github.com/typescript-eslint/typescript-eslint>
 
 ## Contributing
 
@@ -187,6 +187,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/hipstersmoothie"><img src="https://avatars3.githubusercontent.com/u/1192452?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Andrew Lisowski</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=hipstersmoothie" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Rashmi-K-A"><img src="https://avatars2.githubusercontent.com/u/39820442?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rashmi K A</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=Rashmi-K-A" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/rajatdiptabiswas"><img src="https://avatars.githubusercontent.com/rajatdiptabiswas?s=100" width="100px;" alt=""/><br /><sub><b>Rajat Biswas</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=rajatdiptabiswas" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/alexogeny"><img src="https://avatars.githubusercontent.com/u/6896115?v=4?s=100" width="100px;" alt=""/><br /><sub><b>alexogeny</b></sub></a><br /><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=alexogeny" title="Code">💻</a><a href="https://github.com/intuit/eslint-plugin-no-explicit-type-exports/commits?author=alexogeny" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
