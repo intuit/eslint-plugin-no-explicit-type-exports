@@ -32,7 +32,6 @@ function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
     if (fileCache && fileCache.get(cacheKey)) {
       const ast = parse(content, { sourceType: 'module' });
       const cache = fileCache.get(cacheKey);
-
       if (!cache) {
         return;
       }
@@ -45,7 +44,9 @@ function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
             if (specifier.local.name === specifier.exported.name) {
               cache.add(specifier.local.name);
             } else {
-              cache.add(`${specifier.local.name} as ${specifier.exported.name}`)
+              cache.add(
+                `${specifier.local.name} as ${specifier.exported.name}`,
+              );
             }
           });
 

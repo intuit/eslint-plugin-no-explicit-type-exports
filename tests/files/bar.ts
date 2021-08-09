@@ -1,9 +1,9 @@
-interface bar {
+interface Bar {
   a: string;
   b: number;
 }
 type foo = string;
 const baz = 5;
 
-export { bar, foo };
+export { Bar, foo };
 export default baz;
