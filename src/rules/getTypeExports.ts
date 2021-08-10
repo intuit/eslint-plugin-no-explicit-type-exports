@@ -1,6 +1,5 @@
 import fs from 'fs';
 import resolve from 'eslint-module-utils/resolve';
-import { hashObject } from 'eslint-module-utils/hash';
 import { parse } from '@typescript-eslint/parser';
 import { TSESTree } from '@typescript-eslint/typescript-estree';
 
@@ -93,7 +92,7 @@ function parseFileForTypedExports(
 
   try {
     const content = fs.readFileSync(path, { encoding: 'utf8' });
-    const cacheKey = hashObject(content).digest('hex');
+    const cacheKey = path;
     const cachedExports = fileCache.get(cacheKey);
 
     if (cachedExports) {
