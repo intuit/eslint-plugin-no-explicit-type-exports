@@ -18,8 +18,10 @@ function isTypeStatement(
   );
 }
 
-function isExport(exported: TSESTree.ExportSpecifier | TSESTree.ImportClause): exported is TSESTree.ExportSpecifier {
-  return (<TSESTree.ExportSpecifier>exported).exported !== undefined;
+function isExport(
+  exported: TSESTree.ExportSpecifier | TSESTree.ImportClause,
+): exported is TSESTree.ExportSpecifier {
+  return (exported as TSESTree.ExportSpecifier).exported !== undefined;
 }
 
 export = {
@@ -96,7 +98,10 @@ export = {
             if (isExport(specifier)) {
               exportedName = specifier.exported.name;
             }
-            if (AllTypedImports.includes(name) || AllTypedImports.includes(`${name} as ${exportedName}`)) {
+            if (
+              AllTypedImports.includes(name) ||
+              AllTypedImports.includes(`${name} as ${exportedName}`)
+            ) {
               if (name === exportedName) {
                 typedExports.push(name);
               } else {

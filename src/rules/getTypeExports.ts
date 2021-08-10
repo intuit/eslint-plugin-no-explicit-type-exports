@@ -1,6 +1,5 @@
 import fs from 'fs';
 import resolve from 'eslint-module-utils/resolve';
-import { hashObject } from 'eslint-module-utils/hash';
 import { parse } from '@typescript-eslint/parser';
 import { TSESTree } from '@typescript-eslint/typescript-estree';
 
@@ -45,7 +44,9 @@ function parseTSTreeForExportedTypes(cacheKey: string, content: string): void {
             if (specifier.local.name === specifier.exported.name) {
               cache.add(specifier.local.name);
             } else {
-              cache.add(`${specifier.local.name} as ${specifier.exported.name}`)
+              cache.add(
+                `${specifier.local.name} as ${specifier.exported.name}`,
+              );
             }
           });
 
@@ -93,7 +94,7 @@ function parseFileForTypedExports(
 
   try {
     const content = fs.readFileSync(path, { encoding: 'utf8' });
-    const cacheKey = hashObject(content).digest('hex');
+    const cacheKey = path;
     const cachedExports = fileCache.get(cacheKey);
 
     if (cachedExports) {
