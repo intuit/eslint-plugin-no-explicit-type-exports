@@ -18,7 +18,6 @@ const ruleTester = new RuleTester({
   },
 });
 const fileName = path.join(process.cwd(), './tests/files', 'test.ts');
-
 ruleTester.run('no-explicit-type-exports', rule, {
   valid: [
     {
@@ -87,6 +86,11 @@ ruleTester.run('no-explicit-type-exports', rule, {
       // The rule passes when a file imports * from a file and exports as a single variable
       filename: fileName,
       code: "import type * as types from './bar'; export {types};",
+    },
+    {
+      // The rule passes when a file imports a type from a file and exports as a single type variable
+      filename: fileName,
+      code: "import {foo} from './bar'; export type {foo};",
     },
   ],
   invalid: [
@@ -300,17 +304,6 @@ ruleTester.run('no-explicit-type-exports', rule, {
         {
           message: "Do not export 'bar' it is an imported type or interface.",
         },
-        {
-          message: "Do not export 'x' it is an imported type or interface.",
-        },
-      ],
-    },
-    {
-      // The rule fails when export and import a type or interface on a single line
-      filename: fileName,
-      code: "import { x } from './oneLine'; export type { x };",
-      output: "import type { x } from './oneLine';\n export type { x };",
-      errors: [
         {
           message: "Do not export 'x' it is an imported type or interface.",
         },
