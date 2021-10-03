@@ -121,6 +121,12 @@ import { aType, randomNumber, anInterface } from './foo';
 export * from './foo';
 ```
 
+```js
+import {aType} from './foo';
+
+export type {aType};
+```
+
 Invalid:
 
 ```js
