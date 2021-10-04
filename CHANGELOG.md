@@ -1,3 +1,22 @@
+# v0.12.1 (Mon Oct 04 2021)
+
+#### 🐛 Bug Fix
+
+- Allow import type from file and export a type [#40](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/40) (dianatoader@Dianas-MacBook-Pro.local)
+
+#### 🔩 Dependency Updates
+
+- Bump tmpl from 1.0.4 to 1.0.5 [#39](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/39) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump tar from 4.4.15 to 4.4.19 [#37](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/37) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump path-parse from 1.0.6 to 1.0.7 [#36](https://github.com/intuit/eslint-plugin-no-explicit-type-exports/pull/36) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Diana Toader ([@DianaTdr](https://github.com/DianaTdr))
+
+---
+
 # v0.12.0 (Tue Aug 10 2021)
 
 #### 🚀 Enhancement
