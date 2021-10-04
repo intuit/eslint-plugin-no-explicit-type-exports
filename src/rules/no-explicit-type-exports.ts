@@ -10,11 +10,15 @@ function errorMessage(name: string): string {
 }
 
 function isTypeStatement(
-  node: TSESTree.ExportNamedDeclaration | TSESTree.ImportDeclaration,
+  node:
+    | TSESTree.ExportNamedDeclaration
+    | TSESTree.ImportDeclaration
+    | TSESTree.ExportDefaultDeclaration,
 ): boolean {
   return (
-    (node as TSESTree.ExportNamedDeclaration).exportKind === 'type' ||
-    (node as TSESTree.ImportDeclaration).importKind === 'type'
+    ((node as TSESTree.ExportNamedDeclaration).exportKind === 'type' ||
+      (node as TSESTree.ImportDeclaration).importKind === 'type') &&
+    node.type !== 'ExportDefaultDeclaration'
   );
 }
 
@@ -64,8 +68,12 @@ export = {
             },
           );
 
-          getExports(ast).forEach(exp => {
-            if (typedImports.includes(exp) && !isTypeStatement(node)) {
+          getExports(ast).forEach(({ exp, node: expNode }) => {
+            if (
+              typedImports.includes(exp) &&
+              !isTypeStatement(node) &&
+              !isTypeStatement(expNode)
+            ) {
               const isExport = type === 'ExportNamedDeclaration';
               context.report({
                 node,
